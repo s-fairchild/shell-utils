@@ -53,7 +53,7 @@ log() {
 #       * passed to log to show the desired origin function
 log_warn() {
     if [ "$LOG_LEVEL" == "$LOG_LEVEL_WARN" ]; then
-        log "$LOG_LEVEL_WARN: ${1}" "${2:-$STACK_LEVEL_1}"
+        log "$LOG_LEVEL_WARN: ${1:-}" "${2:-$STACK_LEVEL_1}"
     fi
 }
 
@@ -74,23 +74,13 @@ abort() {
     exit 1
 }
 
-# starting()
-#
-# Calls log with message "starting"
-# Used to notify the user that a function is starting
-#
-# Args: none
-starting() {
-    log "starting"
-}
-
 # if_debug_set_xtrace()
 # If DEBUG="$BOOL_TRUE" xtrace is set
 #
 # Args: none
 if_debug_set_xtrace() {
     local set_xtrace="${DEBUG:-"$BOOL_FALSE"}"
-    starting
+    log "starting"
 
     [ "$set_xtrace" == "$BOOL_TRUE" ] && set -x
     log "DEBUG=$set_xtrace"
@@ -123,7 +113,7 @@ check_file_exists() {
 #       * Array of files/directories to delete
 cleanup() {
     local -n trash="$1"
-    starting
+    log "starting"
 
     # shellcheck disable=SC2068
     for t in ${trash[@]}; do
