@@ -52,7 +52,9 @@ log() {
 #       * Optional
 #       * passed to log to show the desired origin function
 log_warn() {
-    [ "$LOG_LEVEL" == "$LOG_LEVEL_WARN" ] && log "$LOG_LEVEL_WARN: ${1}" "${2:-$STACK_LEVEL_1}"
+    if [ "$LOG_LEVEL" == "$LOG_LEVEL_WARN" ]; then
+        log "$LOG_LEVEL_WARN: ${1}" "${2:-$STACK_LEVEL_1}"
+    fi
 }
 
 # abort()
@@ -66,7 +68,7 @@ log_warn() {
 #       * Optional
 #       * passed to log to show the desired origin function
 abort() {
-    [ -n "$1" ] && log "${1}" "${STACK_LEVEL_2}"
+    log "${1:-}" "${STACK_LEVEL_2}"
 
     log "Exiting"
     exit 1
